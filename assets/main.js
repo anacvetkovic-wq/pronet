@@ -22,8 +22,8 @@
   /* mega */
   const mega=d.querySelector('.mega'),mbtn=d.querySelector('[data-mega]');
   if(mega&&mbtn){
-    let t;const open=v=>{clearTimeout(t);mega.classList.toggle('open',v);mbtn.setAttribute('aria-expanded',v);if(v)nav.classList.remove('hide')};
-    mbtn.addEventListener('click',()=>open(!mega.classList.contains('open')));
+    let t,openedAt=0;const open=v=>{clearTimeout(t);if(v&&!mega.classList.contains('open'))openedAt=Date.now();mega.classList.toggle('open',v);mbtn.setAttribute('aria-expanded',v);if(v)nav.classList.remove('hide')};
+    mbtn.addEventListener('click',()=>{const o=mega.classList.contains('open');open(!o||Date.now()-openedAt<600)});
     mbtn.addEventListener('mouseenter',()=>open(true));
     mega.addEventListener('mouseenter',()=>clearTimeout(t));
     [mbtn,mega].forEach(el=>el.addEventListener('mouseleave',()=>{t=setTimeout(()=>open(false),220)}));
